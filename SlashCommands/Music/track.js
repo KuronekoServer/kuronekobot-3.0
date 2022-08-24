@@ -631,11 +631,6 @@ module.exports = {
             const newVol = interaction.options.getNumber("amount", false);
 
             const queue = client.player.getQueue(interaction.guild.id);
-            let premiumcheck = await premiums.findOne({ id: interaction.guild.id })
-            let userpremiumcheck = await userpremiums.findOne({ id: interaction.member.id })
-            if (!premiumcheck && !userpremiumcheck) return client.say.infoMessage(interaction,
-              `<:premium_crown:1004354764416491632> | **OwO whats this?** \n**You've discovered a Premium command!**\n\nUpgrade to Premium here to unlock it: https://r.mikn.dev/prem\nBought Premium? Activate your server here: https://discord.gg/4gfEnY83nx`
-            );
         
             if (!queue || !queue.playing)
               return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
