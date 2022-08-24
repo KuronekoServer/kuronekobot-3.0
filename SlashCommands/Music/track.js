@@ -10,17 +10,17 @@ module.exports = {
     options: [
         {
             name: "clearqueue",
-            description: "Deletes the music queue an leave the voice channel!",
+            description: "再生待ちリストを削除してVCから切断する",
             type: "SUB_COMMAND",
         },
         {
             name: "play",
-            description: "Plays a song",
+            description: "曲を再生する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "song",
-                    description: "Song to play",
+                    description: "曲名またはURL",
                     type: "STRING",
                     required: true
                 }
@@ -28,22 +28,22 @@ module.exports = {
         },
         {
             name: "pause",
-            description: "Pauses the current song",
+            description: "再生を一時停止する",
             type: "SUB_COMMAND"
         },
         {
             name: "previoustrack",
-            description: "play the previous track again!",
+            description: "一つ前の曲に戻る",
             type: "SUB_COMMAND"
         },
         {
             name: "info",
-            description: "Get info for the current or a specific song in the queue!",
+            description: "現在再生中の曲の詳細を表示する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "index",
-                    description: "Index of the song in the queue!",
+                    description: "(任意)再生待ちリストの曲の番号",
                     type: "NUMBER",
                     required: false,
                 }
@@ -51,12 +51,12 @@ module.exports = {
         },
         {
             name: "jump",
-            description: "Jump to a specific song in the queue!",
+            description: "再生待ちの曲を選択し再生する",
             type: 'SUB_COMMAND',
             options: [
                 {
                     name: "index",
-                    description: "Provide the index number of the song!",
+                    description: "再生待ちリストの曲の番号",
                     type: "NUMBER",
                     required: true,
                 }
@@ -64,12 +64,12 @@ module.exports = {
         },
         {
             name: "lyrics",
-            description: "Get the lyrics for a song!",
+            description: "曲の歌詞を検索する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "query",
-                    description: "The song to get the lyrics for!",
+                    description: "検索したい曲",
                     type: "STRING",
                     required: true,
                 }
@@ -77,29 +77,29 @@ module.exports = {
         },
         {
             name: "loop",
-            description: "Loop a song or the whole queue!",
+            description: "ループモードを設定する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "mode",
-                    description: "choose a new loop mode to chnage!",
+                    description: "ループモードを選択してください。",
                     type: 'STRING',
                     required: false,
                     choices: [
                         {
-                            name: "Off",
+                            name: "オフ",
                             value: "off"
                         },
                         {
-                            name: "Track",
+                            name: "一曲",
                             value: "track"
                         },
                         {
-                            name: "Queue",
+                            name: "再生待ちの曲",
                             value: "queue"
                         },
                         {
-                            name: "Autoplay",
+                            name: "オートプレイ",
                             value: "autoplay"
                         }
                     ]
@@ -108,23 +108,23 @@ module.exports = {
         },
         {
             name: "mute",
-            description: "Mutes the volume!",
+            description: "消音する",
             type: "SUB_COMMAND",
         },
         {
             name: "move",
-            description: "Change the position of songs in the queue!",
+            description: "再生待ちの曲の順番を動かす",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "from",
-                    description: "The position to move the song from!",
+                    description: "動かしたい曲の番号",
                     type: "NUMBER",
                     required: true
                 },
                 {
                     name: "to",
-                    description: "The position to move the song to!",
+                    description: "動かしたい場所の場暗号",
                     type: 'NUMBER',
                     required: true
                 }
@@ -132,12 +132,12 @@ module.exports = {
         },
         {
             name: "queue",
-            description: "Shows the music queue for your server!",
+            description: "再生待ちリストを表示する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "page",
-                    description: "Page number of the queue!",
+                    description: "ページ番号",
                     type: "NUMBER",
                     required: false,
                 }
@@ -145,12 +145,12 @@ module.exports = {
         },
         {
             name: "remove",
-            description: "Remove a song from the queue!",
+            description: "再生街リストから曲を削除する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "index",
-                    description: "Index of the song to remove!",
+                    description: "削除したい曲の番号",
                     type: "NUMBER",
                     required: true,
                 }
@@ -158,17 +158,17 @@ module.exports = {
         },
         {
             name: "resume",
-            description: "Resume the queue",
+            description: "再生を再開する",
             type: "SUB_COMMAND"
         },
         {
             name: "seek",
-            description: "Seek to a specific postion of the current song!",
+            description: "曲を進める・巻き戻す",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "duration",
-                    description: "The duration of the song <mm:ss>",
+                    description: "移動したい時間 <mm:ss>",
                     type: 'STRING',
                     required: true,
                 }
@@ -176,27 +176,27 @@ module.exports = {
         },
         {
             name: "shuffle",
-            description: "Shuffle the queue!",
+            description: "再生街リストをシャッフルする",
             type: "SUB_COMMAND"
         },
         {
             name: "skip",
-            description: "Skip the current song in the queue!",
+            description: "再生中の曲を飛ばす",
             type: "SUB_COMMAND"
         },
         {
             name: "stop",
-            description: "Stop the music and leave the voice channel!",
+            description: "再生を停止してVCから切断する",
             type: "SUB_COMMAND",
         },
         {
             name: "volume",
-            description: "Change the volume of the music!",
+            description: "音量を調節する",
             type: "SUB_COMMAND",
             options: [
                 {
                     name: "amount",
-                    description: "The amount of volume of increase!",
+                    description: "設定したい音量(%)",
                     type: "NUMBER",
                     required: true,
                 }
@@ -204,7 +204,7 @@ module.exports = {
         },
         {
             name: "unmute",
-            description: "UInmutes the volume!",
+            description: "消音を解除する",
             type: "SUB_COMMAND"
         }
     ],
