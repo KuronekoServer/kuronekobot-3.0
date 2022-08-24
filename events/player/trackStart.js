@@ -1,7 +1,5 @@
 const { MessageEmbed , MessageActionRow, MessageButton } = require("discord.js");
 const { QueueRepeatMode } = require('discord-player')
-const premiums = require('../../database/premium-licenses');
-const userpremiums = require('../../database/user-premiums');
 
 module.exports = async(queue, track, client) => {
     
@@ -162,10 +160,7 @@ module.exports = async(queue, track, client) => {
         
       case "volumeLess":
         await button.deferUpdate();
-        if (!client.utils.canModifyQueue(queue.metadata)) return;
-        let premiumcheck = await premiums.findOne({ id: queue.metadata.guild.id })
-        let userpremiumcheck = await userpremiums.findOne({ id: button.user.id })
-        if (!premiumcheck && !userpremiumcheck) return queue.metadata.followUp({ content: "Only Premium servers can change the player volume!", ephemeral: true})        
+        if (!client.utils.canModifyQueue(queue.metadata)) return;      
         let vol;
         if (queue.volume === 0) return queue.metadata.followUp({ content: "Volume cannot be lower than 0!", ephemeral: true})
         if (queue.volume - 10 <= 0) vol = 0
@@ -177,9 +172,6 @@ module.exports = async(queue, track, client) => {
       case "volumeMore":
         await button.deferUpdate();
         if (!client.utils.canModifyQueue(queue.metadata)) return;
-        let premiumcheck2 = await premiums.findOne({ id: queue.metadata.guild.id })
-        let userpremiumcheck2 = await userpremiums.findOne({ id: button.user.id })
-        if (!premiumcheck2 && !userpremiumcheck2) return queue.metadata.followUp({ content: "Only Premium servers can change the player volume!", ephemeral: true}) 
         let volume;
         if (queue.volume === 130) return queue.metadata.followUp({ content: "Volume cannot be higher than 130!", ephemeral: true})
         if (queue.volume + 10 >= 130) volume = 130;
