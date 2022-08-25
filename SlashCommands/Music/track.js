@@ -209,9 +209,9 @@ module.exports = {
         }
     ],
     userPerms: ["CONNECT", "VIEW_CHANNEL"],
-    noUserPermsMessage: `You need the \`Connect\` and \`View Channel\` permissions to use these commands!`,
+    noUserPermsMessage: `このコマンドを利用するには\`VCに接続\`と\`チャンネルを見る\`権限が必要です。`,
     botPerms: ["VIEW_CHANNEL", "CONNECT", "SPEAK"],
-    noBotPermsMessage: `I am missing one of the following permissions: \`Connect\`, \`View Channel\`, \`Speak\``,
+    noBotPermsMessage: `ボットに\`VCに接続\`, \`チャンネルを見る\`, \`発言\`権限が必要です。`,
     run: async(client, interaction, args) => {
 
 
@@ -220,19 +220,19 @@ module.exports = {
             const queue = client.player.getQueue(interaction.guild.id);
 
         if (!queue || !queue.playing)
-             return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+             return client.say.errorMessage(interaction, "現在再生していません。");
 
         if (!client.utils.canModifyQueue(interaction)) return;
 
         if (queue.tracks.length < 1)
-             return client.say.warnMessage(interaction, "There is currently no song in the queue.");
+             return client.say.warnMessage(interaction, "再生待ちの曲がありません。");
 
         queue.clear();
 
-        return client.say.infoMessage(interaction, "Cleared the queue.");
+        return client.say.infoMessage(interaction, "再生待ちの曲を削除しました。");
         } else if (interaction.options.getSubcommand() === "play") {
             if (!client.utils.havePermissions(interaction))
-      return client.say.errorMessage(interaction, "I need **\`EMBED_LINKS\`** permission.");
+      return client.say.errorMessage(interaction, "ボットに**\`埋め込みリンク\`**権限が必要です。");
 
     const string = await interaction.options.getString("song", true);
 
@@ -241,15 +241,15 @@ module.exports = {
     const channel = interaction.member?.voice?.channel;
 
     if (!channel)
-      return client.say.warnMessage(interaction, "You have to join a voice channel first.");
+      return client.say.warnMessage(interaction, "VCに接続してください。");
 
     if (guildQueue && channel.id !== interaction.guild.me.voice.channelId)
-      return client.say.warnMessage(interaction, "I'm already playing in a different voice channel!");
+      return client.say.warnMessage(interaction, "他のVCで現在再生しています。");
 
     if (!channel?.viewable)
-      return client.say.warnMessage(interaction, "I need **\`VIEW_CHANNEL\`** permission.");
+      return client.say.warnMessage(interaction, "ボットに**\`チャンネルを見る\`**権限が必要です。");
     if (!channel?.joinable)
-      return client.say.warnMessage(interaction, "I need **\`CONNECT_CHANNEL\`** permission.");
+      return client.say.warnMessage(interaction, "ボットに**\`VCに接続する\`**権限が必要です。");
     /**if (!channel?.speakable)
       return client.say.warnMessage(interaction, "I need **\`SPEAK\`** permission.");
     if (channel?.full)
@@ -257,7 +257,7 @@ module.exports = {
 
     let result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => {});
     if (!result || !result.tracks.length)
-      return client.say.errorMessage(interaction, `No result was found for \`${string}\`.`);
+      return client.say.errorMessage(interaction, `\`${string}\`の歌詞が見つかりません。`);
 
     let queue;
     if (guildQueue) {
@@ -279,8 +279,8 @@ module.exports = {
       if (!queue.connection) { 
         await queue.connect(channel);
       const embed = new MessageEmbed()
-      .setAuthor("KuronekoBot | Music", client.user.displayAvatarURL())
-      .setDescription(`👍 Joined ${queue.connection.channel.toString()} and 📄 bound to ${queue.metadata.channel.toString()}`)
+      .setAuthor("黒猫ちゃんbot", client.user.displayAvatarURL())
+      .setDescription(`👍 ${queue.connection.channel.toString()} に接続し、📄 ${queue.metadata.channel.toString()}でコマンドを受け付けています。`)
       .setColor(queue.guild.me.displayColor || "#00FFFF");
 
       await interaction.editReply({ embeds: [embed]})
@@ -289,7 +289,7 @@ module.exports = {
     } catch (error) {
       client.logger.error("JOIN", error);
       client.player.deleteQueue(interaction.guild.id);
-      return client.say.errorMessage(interaction, `Could not join your voice channel!\n\`${error}\``);
+      return client.say.errorMessage(interaction, `VCに接続できませんでした。\n\`${error}\``);
     }
 
     result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0]);
@@ -299,29 +299,29 @@ module.exports = {
             const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
     if (queue.connection.paused)
-      return client.say.warnMessage(interaction, "The song is already paused.");
+      return client.say.warnMessage(interaction, "既に一時停止済みです。");
 
     queue.setPaused(true);
-    return client.say.infoMessage(interaction, "Paused the current song.");
+    return client.say.infoMessage(interaction, "再生を一時停止しました。");
         } else if (interaction.options.getSubcommand() === "previoustrack") {
             const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
     if (queue.previousTracks.length <= 1)
-      return client.say.warnMessage(interaction, "No previous track was found.");
+      return client.say.warnMessage(interaction, "一個前の曲がありません。");
 
     queue.back();
 
-    return client.say.infoMessage(interaction, "Backed to the previous song.");
+    return client.say.infoMessage(interaction, "一個前の曲を再生します。");
 
         } else if (interaction.options.getSubcommand() === "info") {
 
@@ -330,7 +330,7 @@ module.exports = {
             const queue = client.player.getQueue(interaction.guild.id);
         
             if (!queue || !queue.current)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             let song = queue.current;
         
@@ -338,7 +338,7 @@ module.exports = {
               songNum = (index - 1);
         
               if (!queue.tracks[songNum] || songNum > queue.tracks.length || songNum < 0)
-                return client.say.errorMessage(interaction, "Provided Song Index does not exist.");
+                return client.say.errorMessage(interaction, "無効な数値です。");
         
               song = queue.tracks[songNum]
             }
@@ -350,15 +350,15 @@ module.exports = {
               .setImage(`${song.thumbnail}`);
         
             if (song === queue.current) {
-              embed.setAuthor(`Now playing 🎶`)
-                .setDescription(`~ Played by: ${song.requestedBy.toString()}
+              embed.setAuthor(`現在再生中 🎶`)
+                .setDescription(`~ 再生者 ${song.requestedBy.toString()}
         ${queue.createProgressBar()}`)
         .setImage(`${song.thumbnail}`);
             } else {
-              embed.setAuthor("Songinfo 🎵")
-                .setDescription(`~ Requested by: ${song.requestedBy.toString()}
-        Duration: ${song.duration}
-        Position in queue: ${index}`);
+              embed.setAuthor("曲情報 🎵")
+                .setDescription(`~ 再生者 ${song.requestedBy.toString()}
+        長さ ${song.duration}
+        再生待ちの順番 ${index}`);
             }
         
             return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
@@ -370,19 +370,19 @@ module.exports = {
     const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
     if (queue.tracks.length < 1)
-      return client.say.errorMessage(interaction, "There is currently no song in the queue.");
+      return client.say.errorMessage(interaction, "再生待ちの曲がありません。");
 
     if (!index || index > queue.tracks.length || index < 1 || !queue.tracks[index])
-      return client.say.errorMessage(interaction, "Provided song index does not exist.");
+      return client.say.errorMessage(interaction, "無効な数値です。");
 
     queue.jump(index);
 
-    return client.say.infoMessage(interaction, `Jumped to song \`${index}\`.`);
+    return client.say.infoMessage(interaction, `\`${index}\`に飛びました。`);
         } else if (interaction.options.getSubcommand() === "lyrics") {
             const songName = interaction.options.getString("query", true);
 
@@ -394,7 +394,7 @@ module.exports = {
             const result = await lyricsClient.search(`${songNameFormated}`);
 
             if (!result || !result.lyrics)
-                return client.say.errorMessage(interaction, "No lyrics were found for this song.");
+                return client.say.errorMessage(interaction, "歌詞が見つかりませんでした。");
 
             const embed = client.say.baseEmbed(interaction)
                 .setTitle(`${songName}`)
@@ -402,7 +402,7 @@ module.exports = {
 
             return interaction.editReply({ embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
             } catch {
-            return client.say.errorMessage(interaction, "No lyrics were found for this song.");
+            return client.say.errorMessage(interaction, "歌詞が見つかりませんでした。");
             }
         } else if (interaction.options.getSubcommand() === "loop") {
             const arg = interaction.options.getString("mode", false);
@@ -410,7 +410,7 @@ module.exports = {
     const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
@@ -426,8 +426,8 @@ module.exports = {
     }
 
     const embed = client.say.rootEmbed(interaction)
-      .setDescription(`Loop mode is set to: \`${md}\`.`)
-      .setFooter(`Use \'\/loop <off|track|queue|autoplay>\' to change loop mode.`);
+      .setDescription(`ループモードを\`${md}\`に設定しました。`)
+      .setFooter(`\'\/music loop <off|track|queue|autoplay>\'でループモードを変更できます。`);
 
     if (!arg)
       return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
@@ -436,19 +436,19 @@ module.exports = {
     switch (arg) {
       case "off":
         queue.setRepeatMode(QueueRepeatMode.OFF);
-        mode = "Turned off loop mode.";
+        mode = "ループを無効にしました。";
         break;
       case "track":
         queue.setRepeatMode(QueueRepeatMode.TRACK);
-        mode = "Repeating track activated";
+        mode = "この曲をループします。";
         break;
       case "queue":
         queue.setRepeatMode(QueueRepeatMode.QUEUE);
-        mode = "Looping queue enabled.";
+        mode = "再生待ちリストをループします。";
         break;
       case "autoplay":
         queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
-        mode = "Autoplay mode activated.";
+        mode = "オートプレイを有効化しました。";
         break;
       default:
         return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
@@ -461,15 +461,15 @@ module.exports = {
         const queue = client.player.getQueue(interaction.guild.id);
 
         if (!queue || !queue.playing)
-          return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+          return client.say.errorMessage(interaction, "現在再生していません。");
     
         if (!client.utils.canModifyQueue(interaction)) return;
     
         if (queue.volume === 0)
-          return client.say.warnMessage(interaction, "The song is already muted.");
+          return client.say.warnMessage(interaction, "既に消音されてます。");
     
         queue.mute();
-        return client.say.infoMessage(interaction, "Muted the playback.");
+        return client.say.infoMessage(interaction, "消音しました。");
 
         } else if (interaction.options.getSubcommand() === "move") {
 
@@ -480,34 +480,34 @@ module.exports = {
     const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
     if (queue.tracks.length < 3)
-      return client.say.warnMessage(interaction, "Need at least \`3\` songs in the queue to use this command.");
+      return client.say.warnMessage(interaction, "再生待ちの曲が3曲以上じゃなければシャッフルできません。");
 
     if (!fr || !to || fr < 0 || to < 0 || fr > queue.tracks.length || !queue.tracks[fr] || to > queue.tracks.length || !queue.tracks[to])
-      return client.say.warnMessage(interaction, "Provided Song Index does not exist.");
+      return client.say.warnMessage(interaction, "無効な数値です。");
 
     if (fr === to)
-      return client.say.warnMessage(interaction, "The song is already in this position.");
+      return client.say.warnMessage(interaction, "既にこの順番です。");
 
     const song = queue.tracks[fr];
     queue.splice(fr, 1);
     queue.splice(to, 0, song);
 
-    return client.say.infoMessage(interaction, `**[${song.title}](${song.url})** has been moved to the **position ${to}** in the queue.`);
+    return client.say.infoMessage(interaction, `**[${song.title}](${song.url})**を再生待ちの**position ${to}**番目に移動しました。`);
         } else if (interaction.options.getSubcommand() === "queue") {
             let page = interaction.options.getNumber("page", false) ?? 1;
 
     const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!queue.tracks.length)
-      return client.say.warnMessage(interaction, "There is currently no song in the queue.");
+      return client.say.warnMessage(interaction, "再生待ちの曲がありません。");
 
     const multiple = 10;
 
@@ -522,7 +522,7 @@ module.exports = {
 
     const embed = client.say.rootEmbed(interaction)
       .setDescription(`${tracks.map((song, i) => `${start + (++i)} - [${song.title}](${song.url}) ~ [${song.requestedBy.toString()}]`).join("\n")}`)
-      .setFooter(`Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`, interaction.user.displayAvatarURL({ dynamic: true }));
+      .setFooter(`ページ${page} / ${maxPages} | ${start + 1}から${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`}合計時間${queue.tracks.length}`, interaction.user.displayAvatarURL({ dynamic: true }));
 
     return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
         } else if (interaction.options.getSubcommand() === "remove") {
@@ -531,59 +531,59 @@ module.exports = {
     const queue = client.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return client.say.errorMessage(interaction, "現在再生していません。");
 
     if (!client.utils.canModifyQueue(interaction)) return;
 
     if (queue.tracks.length < 1)
-      return client.say.warnMessage(interaction, "There's no song to remove in the queue.");
+      return client.say.warnMessage(interaction, "削除できる曲がありません。");
 
     const index = (sNum - 1);
 
     if (!index || index < 0 || index > queue.tracks.length || !queue.tracks[index])
-      return client.say.warnMessage(interaction, "Provided Song Index does not exist.");
+      return client.say.warnMessage(interaction, "無効な数値です。");
 
     queue.remove(index);
 
-    return client.say.infoMessage(interaction, `Removed track \`${sNum}\`.`);
+    return client.say.infoMessage(interaction, `\`${sNum}\`を再生待ちから削除しました。`);
         
         } else if (interaction.options.getSubcommand() === "resume") {
             const queue = client.player.getQueue(interaction.guild.id);
 
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             if (!queue.connection.paused)
-              return client.say.warnMessage(interaction, "The song is not paused.");
+              return client.say.warnMessage(interaction, "一時停止されていません。");
         
             queue.setPaused(false);
-            return client.say.infoMessage(interaction, "Resumed the corrent song.");
+            return client.say.infoMessage(interaction, "再生を再開しました。");
         } else if (interaction.options.getSubcommand() === "seek") {
             let timeString = interaction.options.getString("duration", true);
 
             const queue = client.player.getQueue(interaction.guild.id);
         
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             const song = queue.current;
         
             if (song.live)
-              return client.say.warnMessage(interaction, "Can't seek this song.");
+              return client.say.warnMessage(interaction, "ライブ配信ではこの操作ははできません。");
         
             if (isNaN(timeString) && !timeString.includes(":"))
-              return client.say.errorMessage(interaction, "Provide a valid duration to seek.");
+              return client.say.errorMessage(interaction, "無効な数値です。");
         
             if (!isNaN(timeString)) timeString = `00:${timeString}`;
         
             const time = client.utils.toMilliSeconds(timeString);
         
             if (!time || isNaN(time) || time > song.durationMS || time < 0)
-              return client.say.warnMessage(interaction, "Provide a valid duration to seek.");
+              return client.say.warnMessage(interaction, "無効な数値です。");
         
             queue.seek(time);
         
@@ -592,78 +592,78 @@ module.exports = {
             const queue = client.player.getQueue(interaction.guild.id);
 
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             if (queue.tracks.length < 3)
-              return client.say.warnMessage(interaction, "Need at least \`3\` songs in the queue to shuffle.");
+              return client.say.warnMessage(interaction, "再生待ちの曲が3曲以上じゃなければシャッフルできません。");
         
             queue.shuffle();
         
-            return client.say.infoMessage(interaction, "Shuffled the queue.");
+            return client.say.infoMessage(interaction, "再生待ちをシャッフルしました。");
         } else if (interaction.options.getSubcommand() === "skip") {
             const queue = client.player.getQueue(interaction.guild.id);
 
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             if (queue.tracks.length < 1 && queue.repeatMode !== 3)
-              return client.say.warnMessage(interaction, "No more songs in the queue to skip.");
+              return client.say.warnMessage(interaction, "飛ばす曲がありません。");
         
             queue.skip();
         
-            return client.say.infoMessage(interaction, "Skipped to the next song.");
+            return client.say.infoMessage(interaction, "次の曲に飛ばしました。");
         } else if (interaction.options.getSubcommand() === "stop") {
             const queue = client.player.getQueue(interaction.guild.id);
 
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             queue.stop();
         
-            return client.say.infoMessage(interaction, "Stopped the music.");
+            return client.say.infoMessage(interaction, "再生を停止しました。");
         } else if (interaction.options.getSubcommand() === "volume") {
             const newVol = interaction.options.getNumber("amount", false);
 
             const queue = client.player.getQueue(interaction.guild.id);
         
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             if (!newVol) {
               const embed = client.say.rootEmbed(interaction)
-                .setDescription(`Volume is at \`${queue.volume}%\`.`)
-                .setFooter(`Use \'\/volume <1-200>\' to change the volume.`);
+                .setDescription(`現在の音量\`${queue.volume}%\`.`)
+                .setFooter(`\'\/music volume <1-200>\'で調節できます。`);
         
               return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
             }
         
             if (!Number.isInteger(newVol) || newVol > 200 || newVol < 0)
-              return client.say.warnMessage(interaction, "Provide a valid number between 1 to 200.");
+              return client.say.warnMessage(interaction, "無効な数値です。");
         
             queue.setVolume(newVol);
         
-            return client.say.infoMessage(interaction, `Volume is updated to \`${queue.volume}%\`.`);
+            return client.say.infoMessage(interaction, `音量を\`${queue.volume}%\`に設定しました。`);
         } else if (interaction.options.getSubcommand() === "unmute") {
             const queue = client.player.getQueue(interaction.guild.id);
 
             if (!queue || !queue.playing)
-              return client.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+              return client.say.errorMessage(interaction, "現在再生していません。");
         
             if (!client.utils.canModifyQueue(interaction)) return;
         
             if (queue.volume > 0)
-              return client.say.warnMessage(interaction, "The song is already unmuted.");
+              return client.say.warnMessage(interaction, "消音されていません。");
         
             queue.unmute();
-            return client.say.infoMessage(interaction, "Unmuted the playback.");
+            return client.say.infoMessage(interaction, "消音を解除しました。");
         }
     }
 }
