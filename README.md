@@ -1,2 +1,10 @@
 # kuronekobot-3.0
-Nwe KuronekoBot by MikanDev
+
+MikanDevが黒猫ちゃんbotをガチってめっちゃよくしたやつ
+
+・シャーデイングに対応
+・音楽コマンドを一体化
+・多くのコマンドをスラッシュコマンドに
+・アクティビティーコマンドの実装
+
+このMikanDevっていうやつかっこいいでしょ～？ https://ko-fi.com/maamokun で投げ銭でもやったら？
