@@ -6,7 +6,7 @@ module.exports = async(queue, track, client) => {
   if (!client.utils.havePermissions(queue.metadata.channel)) return;
 
   const embed = new MessageEmbed()
-  .setTitle("Now playing")
+  .setTitle("現在再生中")
   .setColor(queue.guild.me.displayColor || "BLUE")
   .setDescription(`[${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]\n${queue.createProgressBar()}`)
   .setImage(`${track.thumbnail}`);
