@@ -639,7 +639,7 @@ module.exports = {
         
             if (!newVol) {
               const embed = client.say.rootEmbed(interaction)
-                .setDescription(`現在の音量\`${queue.volume}%\`.`)
+                .setDescription(`現在の音量\`${queue.volume}%\``)
                 .setFooter(`\'\/music volume <1-200>\'で調節できます。`);
         
               return interaction.editReply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);

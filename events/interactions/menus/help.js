@@ -43,6 +43,18 @@ module.exports = async(interaction, client) => {
  
          await msg.edit({ embeds: [musicEmbed] })
 
+        } else if (interaction.values[0] === "mc") {
+ 
+          await interaction.deferUpdate();
+  
+          const MCEmbed = new Discord.MessageEmbed()
+          .setTitle(`Minecraft関連コマンド`)
+          .setDescription("`server`, `beserver`, `uuid`")
+          .setColor("BLUE")
+  
+          await msg.edit({ embeds: [MCEmbed] })
+ 
+
         } else if (interaction.values[0] === "activities") {
             await interaction.deferUpdate()
             

@@ -57,6 +57,12 @@ module.exports = {
           emoji: "🎲"
         },
         {
+          label: "Minecraft",
+          description: "Minecraft関連コマンドを表示する",
+          value: "mc",
+          emoji: "⛏"
+        },
+        {
           label: "アクティビティー",
           description: "Discordアクティビティーを起動するコマンドを表示する",
           value: "activities",

@@ -75,18 +75,6 @@ process.on("unhandledRejection", (reason, promise) => {
     reason.message
   );
 
-  setInterval(async function () {
-    let allData = await MuteDB.find()
-    allData.map(async a => {
-      if (a.time < Date.now()) {
-        let guild = client.guilds.cache.get(a.guildID)
-        let member = guild.members.cache.get(a.userID)
-        member.roles.remove(a.rolID)
-        await MuteDB.deleteOne({ userID: a.userID })
-      }
-    })
-  }, 10000);
-
    const rejectionembed = new MessageEmbed()
   .setTitle("Unhandled Promise Rejection")
   .addField("Promise", `${promise}`)

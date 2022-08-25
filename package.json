@@ -45,10 +45,12 @@
     "giphy-api": "^2.0.1",
     "google-play-scraper": "^8.0.2",
     "got": "^11.8.5",
+    "https": "^1.0.0",
     "humanize-duration": "^3.27.2",
     "imdb-api": "^4.2.0",
     "jimp": "^0.16.0",
     "mal-scraper": "^2.11.3",
+    "mojang-api": "^0.0.2",
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "mongoose": "^5.10.7",
@@ -79,5 +81,4 @@
   "devDependencies": {
     "node": "16.13.0"
   }
-
 }
