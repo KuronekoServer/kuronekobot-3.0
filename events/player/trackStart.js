@@ -83,7 +83,7 @@ module.exports = async(queue, track, client) => {
   });
 
   collector.on("collect", async(button, user) => {
-    if (button.user != track.requestedBy) return button.reply({ content: "this button isnt for you lol", ephemeral: true });
+    if (button.user != track.requestedBy) return button.reply({ content: "あなたはこの操作はできません。", ephemeral: true });
     if (!queue) return;
     if (!track.durationMS) {
       collector.stop();
@@ -97,10 +97,10 @@ module.exports = async(queue, track, client) => {
 
         if (!queue.connection.paused) {
           queue.setPaused(true);
-          return queue.metadata.followUp({ content: "Paused the music!", ephemeral: true })
+          return queue.metadata.followUp({ content: "再生を一時停止しました。", ephemeral: true })
         } else if (queue.connection.paused) {
           queue.setPaused(false);
-          return queue.metadata.followUp({ content: "Resumed the music!", ephemeral: true })
+          return queue.metadata.followUp({ content: "再生を再開しました。", ephemeral: true })
         }
         break;
       
@@ -109,11 +109,11 @@ module.exports = async(queue, track, client) => {
         if (!client.utils.canModifyQueue(queue.metadata)) return;
 
         if (queue.tracks.length < 3 && queue.repeatMode !== 3) {
-          return queue.metadata.followUp({ content: "No more songs in the queue to skip!", ephemeral: true })
+          return queue.metadata.followUp({ content: "飛ばす曲がありません。", ephemeral: true })
         } else {
           queue.skip();
           usedStop();
-          queue.metadata.followUp({ content: "Skipped the current song!", ephemeral: true })
+          queue.metadata.followUp({ content: "次の曲に飛ばしました。", ephemeral: true })
         }
         break;
 
@@ -122,10 +122,10 @@ module.exports = async(queue, track, client) => {
         if (!client.utils.canModifyQueue(queue.metadata)) return;
         if (!queue.repeatMode) {
           queue.setRepeatMode(QueueRepeatMode.QUEUE)
-          queue.metadata.followUp({ content: "Loop mode has been enabled!", ephemeral: true})
+          queue.metadata.followUp({ content: "再生待ちの曲をループします。", ephemeral: true})
         } else if (queue.repeatMode) {
           queue.setRepeatMode(QueueRepeatMode.OFF)
-          queue.metadata.followUp({ content: "Loop mode has been disabled!", ephemeral: true})
+          queue.metadata.followUp({ content: "ループを解除しました。", ephemeral: true})
         }
         break;
 
@@ -134,10 +134,10 @@ module.exports = async(queue, track, client) => {
         if (!client.utils.canModifyQueue(queue.metadata)) return;
         if (!queue.repeatMode) {
           queue.setRepeatMode(QueueRepeatMode.TRACK)
-          queue.metadata.followUp({ content: "Repeating current song now!", ephemeral: true})
+          queue.metadata.followUp({ content: "現在再生中の曲をループします。", ephemeral: true})
         } else if (queue.repeatMode) {
           queue.setRepeatMode(QueueRepeatMode.OFF)
-          queue.metadata.followUp({ content: "Repeating current song now!", ephemeral: true})
+          queue.metadata.followUp({ content: "ループを解除しました。", ephemeral: true})
         }
         break;
 
@@ -145,7 +145,7 @@ module.exports = async(queue, track, client) => {
         await button.deferUpdate();
         if (!client.utils.canModifyQueue(queue.metadata)) return;
         queue.stop();
-        queue.metadata.followUp({ content: "Stopped the music!", ephemeral: true })
+        queue.metadata.followUp({ content: "再生を停止しました。", ephemeral: true })
         usedStop();
         collector.stop();
         break;
@@ -153,31 +153,31 @@ module.exports = async(queue, track, client) => {
       case "shuffle":
         await button.deferUpdate();
         if (!client.utils.canModifyQueue(queue.metadata)) return;
-        if (queue.tracks.length < 3) return queue.metadata.followUp({ content: "Need atleast `3` songs in the queue to shuffle!", ephemeral: true})
+        if (queue.tracks.length < 3) return queue.metadata.followUp({ content: "再生待ちの曲が3曲以上じゃなければシャッフルできません。", ephemeral: true})
         queue.shuffle();
-        queue.metadata.followUp({ content: "Shuffled the queue!", ephemeral: true})
+        queue.metadata.followUp({ content: "再生待ちをシャッフルしました。", ephemeral: true})
         break;
         
       case "volumeLess":
         await button.deferUpdate();
-        if (!client.utils.canModifyQueue(queue.metadata)) return;      
+        if (!client.utils.canModifyQueue(queue.metadata)) return;   
         let vol;
-        if (queue.volume === 0) return queue.metadata.followUp({ content: "Volume cannot be lower than 0!", ephemeral: true})
+        if (queue.volume === 0) return queue.metadata.followUp({ content: "0以上の数値を入力してください。", ephemeral: true})
         if (queue.volume - 10 <= 0) vol = 0
         else vol = queue.volume - 10;
         queue.setVolume(Number(vol));
-        queue.metadata.followUp({ content: `Volume set to ${queue.volume}%`, ephemeral: true})
+        queue.metadata.followUp({ content: `音量を\`${queue.volume}%\`に設定しました。`, ephemeral: true})
         break;
         
       case "volumeMore":
         await button.deferUpdate();
         if (!client.utils.canModifyQueue(queue.metadata)) return;
         let volume;
-        if (queue.volume === 130) return queue.metadata.followUp({ content: "Volume cannot be higher than 130!", ephemeral: true})
+        if (queue.volume === 130) return queue.metadata.followUp({ content: "130以下の数値を入力してください。", ephemeral: true})
         if (queue.volume + 10 >= 130) volume = 130;
         else volume = queue.volume + 10;
         queue.setVolume(Number(volume));
-        queue.metadata.followUp({ content: `Volume set to ${queue.volume}%`, ephemeral: true})
+        queue.metadata.followUp({ content: `音量を\`${queue.volume}%\`に設定しました。`, ephemeral: true})
         break;
 
       default: return;
