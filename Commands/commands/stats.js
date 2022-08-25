@@ -9,7 +9,7 @@ const readdir = promisify(require("fs").readdir);
 
 module.exports = {
   name: "stats",
-  descriptiom: "Get MikanBot's Stats",
+  descriptiom: "ボットの情報を得る",
   botPerms: ["EMBED_LINKS"],
   run: async (client, message, args, level) => {
     // eslint-disable-line no-unused-vars
@@ -25,7 +25,7 @@ module.exports = {
           .format(" D [days], H [hrs], m [mins], s [secs]");
         let bicon = client.user.displayAvatarURL;
         const RynEmb = new Discord.MessageEmbed()
-          .setAuthor("MikanBot | Stats")
+          .setAuthor("黒猫ちゃんbot | 情報いろいろ")
           .setTimestamp()
           .setThumbnail(bicon)
           .setColor("RANDOM")
