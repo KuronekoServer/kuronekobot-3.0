@@ -26,7 +26,7 @@ module.exports = {
       )
       .addField(
         "ご不明な点があれば",
-        "**[サポートサーバー](https://discord.gg/h5wW2rhduU)** **からお問い合わせください。**"
+        "**[サポートサーバー](https://discord.kuroneko6423.com)** **からお問い合わせください。**"
       )
       .setFooter("にゃー");
     message.channel.send({ embeds: [embed] });
