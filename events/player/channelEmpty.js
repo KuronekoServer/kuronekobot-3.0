@@ -6,6 +6,6 @@ module.exports = async(queue, client) => {
       playingMessage.delete().catch(console.error);
     }
   
-    return client.say.queueMessage(client, queue, "I have left the voice channel as I was left alone.");
+    return client.say.queueMessage(client, queue, "誰もいなくなったため、再生を停止しました。");
     
   };
