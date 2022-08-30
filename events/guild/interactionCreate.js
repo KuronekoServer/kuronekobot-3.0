@@ -17,7 +17,7 @@ module.exports = async(interaction, client) => {
         if (blacklist1) return interaction.reply(
           `:warning: | **You have been blacklisted** \n**You will be unable to use MikanBot or any of its features until your blacklist is lifted.**\n\n Contact the devs to contest your blacklist here: https://discord.gg/4gfEnY83nx`
         );
-        let blacklist2 = await gblacklist.findOne({ id: interaction.member.user.id })
+        let blacklist2 = await gblacklist.findOne({ id: interaction.guild.id })
         if (blacklist2) return interaction.reply(
           `:warning: | **This guild has been Blacklisted** \n**You will be unable to use MikanBot or any of its features here until this guilds blacklist is lifted.**\n(Don't worry, you will still be able to use the bot in other servers unless you have been user blacklisted.)\n\n Server owners/moderators may contact the devs to contest the blacklist here: https://discord.gg/4gfEnY83nx`
         );

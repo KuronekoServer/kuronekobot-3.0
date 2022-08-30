@@ -37,7 +37,7 @@ let textList = ['/help | にゃ～', guildin + ' servers' + ' / ' + guildmember 
     chalk.bgMagentaBright.black(` ${allMembers.size} members `),
     chalk.bgMagentaBright.black(` ${client.shard.count} shards `)
   );
-  const bootlogs = client.channels.cache.get("起動ログチャンネルID");
+  const bootlogs = client.channels.cache.get("1000717448980480030");
   bootlogs.send(`:smiley: KuronekoBot is now **UP**\n${client.guilds.cache.size} servers\n${client.channels.cache.size} channels\n${allMembers.size} members\n${client.shard.count} shards`);
 
   mongoose
