@@ -17,6 +17,8 @@ function loadEvents(client) {
 
   // Menu Events
   client.on('interactionCreate', (m) => menuEvents("help")(m, client));
+  client.on('interactionCreate', (m) => menuEvents("welcome_message")(m, client));
+  client.on('interactionCreate', (m) => menuEvents("welcome_channel")(m, client));
 
   // warnings and errors
   client.on("warn", (info) => console.log(info));
