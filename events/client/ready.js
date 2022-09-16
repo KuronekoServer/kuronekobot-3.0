@@ -6,7 +6,6 @@ module.exports = (client) => {
 
   const guildin = client.guilds.cache.size;
   const guildmember = client.users.cache.size;
-  const shards = client.shard.count
   
  client.user.setPresence({ status: "online" });
 let textList = ['/help | にゃ～', guildin + ' servers' + ' / ' + guildmember + ' members']
