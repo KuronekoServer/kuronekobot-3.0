@@ -7,7 +7,7 @@ module.exports = {
         if (!title) return message.channel.send({ content: 'タイトルを指定してください' });
         const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹'];
         if (choices.length < 2 || choices.length > emojis.length)
-            return message.channel.send({ content: `選択肢は最低2つ最大20個の範囲内で指定してください` });
+            return message.channel.send({ content: `選択肢は最低2つ最大${emojis.length}個の範囲内で指定してください` });
         const poll = await message.channel.send({
             embeds: [
                 {
